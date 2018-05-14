@@ -5,15 +5,37 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+      <aside>
+          <ul>
+              <li data-view="restaurant">Les restaurants</li>
+              <li data-view="favoris">Les favoris</li>
+              <li data-view="vote">Voter</li>
+              <li data-view="gestion">Gestion</li>
+          </ul>
+      </aside>
+
+      <main>
+          <section data-view="restaurant">
+              <h1>Les Restaurants</h1>
+          </section>
+
+          <section data-view="favoris">
+              <h1>Les favoris</h1>
+          </section>
+
+          <section data-view="vote">
+              <h1>Voter</h1>
+          </section>
+          
+          <section data-view="gestion">
+              <h1>Gestion</h1>
+          </section>
+      </main>
 
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
     </script>
+    <script type="text/javascript" src="./js/viewHelper.js"></script>
   </body>
 </html>
