@@ -47,7 +47,7 @@
               <h2>Gestion</h2>
               <ul class="no-puces list-line">
                   <li data-link="ajout">Ajouter un Resto</li>
-                  <li data-link="suppresion">Supprimer un Resto</li>
+                  <li data-link="suppresion" onclick="creerListeRestosSuppression(getRestos());">Supprimer un Resto</li>
                   <li data-link="edit">Modifier un Resto</li>
               </ul>
 
@@ -79,8 +79,8 @@
                   </form>
               </section>
 
-              <section data-form="suppresion" class="hidden section-gestion">
-
+              <section data-form="suppresion" class="hidden section-gestion" id="suppressionSection">
+    
               </section>
 
               <section data-form="edit" class="hidden section-gestion">

@@ -57,6 +57,19 @@ function creerListeRestos(lesRestos)
   document.getElementById('allResto').innerHTML = html;
 }
 
+function creerListeRestosSuppression(lesRestos)
+{
+    alert('hop');
+    html = "";
+  // Parcourir //
+  lesRestos.forEach(function(item, index, array)
+  {
+    
+  });
+  // Retourner la liste //
+  document.getElementById('suppressionSection').innerHTML = html;
+}
+
 //fonction pour ajouter un resto avec nom et description en format html
 function ajouterResto()
 {
