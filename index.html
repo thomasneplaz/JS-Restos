@@ -11,7 +11,7 @@
       </header>
       <aside>
           <ul class="list-line no-puces">
-              <li data-link="restaurant">Les restaurants</li>
+              <li data-link="restaurant" onclick="creerListeRestos(getRestos());">Les restaurants</li>
               <li data-link="favoris">Les favoris</li>
               <li data-link="vote">Voter</li>
               <li data-link="gestion">Gestion</li>
@@ -21,7 +21,7 @@
       <main>
           <section data-view="restaurant" class="hidden">
               <h2>Les Restaurants</h2>
-              <section onload="creerListeRestos(getRestos());">
+              <section id="allResto">
 
               </section>
           </section>
@@ -52,14 +52,14 @@
               </ul>
 
               <section data-form="ajout" class="hidden section-gestion">
-                  <form class="add" action="index.html" method="post">
+                  <form class="add" name="ajout" action="index.html" method="post">
                       <table>
                           <tr>
                               <td>
                                   <label for="Nom">Nom :</label>
                               </td>
                               <td>
-                              <input type="text" name="Nom" value="">
+                                  <input type="text" name="Nom" value="">
                               </td>
                           </tr>
                           <tr>
@@ -72,7 +72,7 @@
                          </tr>
                          <tr>
                              <td>
-                                 <button type="submit" name="button" onclick="ajouterResto('machin','truc');">Ajouter</button>
+                                 <button type="button" name="button" onclick="ajouterResto();">Ajouter</button>
                              </td>
                          </tr>
                       </table>

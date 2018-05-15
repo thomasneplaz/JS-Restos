@@ -21,14 +21,15 @@ document.querySelector('section ul').addEventListener('click', function(el) {
 
 
 //initialise le localStorage
-function initialiserRestos ()
+function initialiserRestos()
 {
-  if (localStorage.getItem("restos") === null)
-  {
-    // Si la "BDD" localStorage n'existe pas, on l'initialise //
-    var restos = [];
-    // Sauvegarder en localStorage //
-    localStorage['restos'] = JSON.stringify(restos);
+    if (localStorage.getItem("restos") === null)
+    {
+        // Si la "BDD" localStorage n'existe pas, on l'initialise //
+        var restos = [];
+        // Sauvegarder en localStorage //
+        localStorage['restos'] = JSON.stringify(restos);
+    }
   }
 
 //récupère une liste de restos
@@ -40,32 +41,33 @@ function getRestos ()
   return restos;
 }
 
-function creerListeRestos (lesRestos)
+function creerListeRestos(lesRestos)
 {
-  html = '<ul>';
-
+    html = "";
   // Parcourir //
   lesRestos.forEach(function(item, index, array)
   {
-    html += '<li>' + item['nom'] + '</li>';
-    html += '<ul><li>' + item['description'] + '</li></ul>';
+    html += '<div class="listeResto">';
+    html += '<h3>' + item['nom'] + '</h3>';
+    html += '<p>' + item['description'] + '</p>';
+    html += '</div>';
+
   });
-
-  html += '</ul>'
-
   // Retourner la liste //
-  return html;
+  document.getElementById('allResto').innerHTML = html;
 }
 
 //fonction pour ajouter un resto avec nom et description en format html
-function ajouterResto (nomResto, descriptionResto)
+function ajouterResto()
 {
+    var nom = document.ajout.Nom.value;
+    var desc = document.ajout.desc.value;
   // Charger en localStorage //
   var restos = JSON.parse(localStorage['restos']);
   // Ajouter l'objet //
   var leResto = new Object();
-  leResto["nom"] = nomResto;
-  leResto["description"] = descriptionResto;
+  leResto["nom"] = nom;
+  leResto["description"] = desc;
 
   var newLength = restos.push(leResto);
   // Sauvegarder en localStorage //
@@ -74,7 +76,7 @@ function ajouterResto (nomResto, descriptionResto)
   //alert('Ajout OK');
 }
 
-function creerListeRestosCheckbox (lesRestos)
+function creerListeRestosCheckbox(lesRestos)
 {
   html = '<ul>';
 

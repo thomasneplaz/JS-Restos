@@ -99,5 +99,5 @@ function creerListeRestos (lesRestos)
   html += '</ul>'
 
   // Retourner la liste //
-  return html;
+  return document.getElementById('divListeRestos').innerHTML = html;
 }
