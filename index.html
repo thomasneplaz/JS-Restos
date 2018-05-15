@@ -2,11 +2,15 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Les Restos</title>
+    <link rel="stylesheet" href="./style/styles.css" />
   </head>
   <body>
+      <header>
+          <h1 class="right">Les Restos</h1>
+      </header>
       <aside>
-          <ul>
+          <ul class="list-line no-puces">
               <li data-link="restaurant">Les restaurants</li>
               <li data-link="favoris">Les favoris</li>
               <li data-link="vote">Voter</li>
@@ -15,27 +19,74 @@
       </aside>
 
       <main>
-          <section data-view="restaurant">
-              <h1>Les Restaurants</h1>
+          <section data-view="restaurant" class="hidden">
+              <h2>Les Restaurants</h2>
+
           </section>
 
-          <section data-view="favoris">
-              <h1>Les favoris</h1>
+          <section data-view="favoris" class="hidden">
+              <h2>Les favoris</h2>
           </section>
 
-          <section data-view="vote">
-              <h1>Voter</h1>
+          <section data-view="vote" class="hidden">
+              <h2>Voter</h2>
+
+              <div class="">
+                  <form class="" action="index.html" method="post">
+
+                  </form>
+              </div>
           </section>
 
-          <section data-view="gestion">
-              <h1>Gestion</h1>
+          <section data-view="gestion" class="hidden">
+              <h2>Gestion</h2>
+              <ul class="no-puces list-line">
+                  <li data-link="ajout">Ajouter un Resto</li>
+                  <li data-link="suppresion">Supprimer un Resto</li>
+                  <li data-link="edit">Modifier un Resto</li>
+              </ul>
+
+              <section data-form="ajout" class="hidden section-gestion">
+                  <form class="add" action="index.html" method="post">
+                      <table>
+                          <tr>
+                              <td>
+                                  <label for="Nom">Nom :</label>
+                              </td>
+                              <td>
+                              <input type="text" name="Nom" value="">
+                              </td>
+                          </tr>
+                          <tr>
+                             <td>
+                                 <label for="desc">Description :</label>
+                             </td>
+                             <td>
+                                 <textarea name="desc" rows="8" cols="80"></textarea>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 <button type="submit" name="button" onclick="ajoutResto();">Ajouter</button>
+                             </td>
+                         </tr>
+                      </table>
+                  </form>
+              </section>
+
+              <section data-form="suppresion" class="hidden section-gestion">
+
+              </section>
+
+              <section data-form="edit" class="hidden section-gestion">
+
+              </section>
+
           </section>
       </main>
-
+    <script type="text/javascript" src="./js/viewHelper.js"></script>
     <script>
-      // You can also require other files to run in this process
       require('./renderer.js')
     </script>
-    <script type="text/javascript" src="./js/viewHelper.js"></script>
   </body>
 </html>
