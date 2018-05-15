@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+
+    <aside>
+      <ul>
+        <li data-link="screen1">Onglet 1</li>
+        <li data-link="screen2">Onglet 2</li>
+      </ul>
+    </aside>
+
+    <main>
+      <section data-view="screen1" class="hidden">
+        <h1>Ecran 1</h1>
+      </section>
+      <section data-view="screen2" class="hidden">
+        <h1>Ecran 2</h1>
+      </section>
+    </main>
+
+    <button onclick="initialiserRestos();">Initaliser localStorage</button>
+    <button onclick="alertRestos();">Afficher restos</button>
+    <hr>
+    <button onclick="ajouterResto('McDonald','Un fast-food bien gras');">Ajouter MacDonald</button>
+    <button onclick="ajouterResto('Subway','Un fast food un peu moins gras');">Ajouter Subway</button>
+    <hr>
+    <button onclick="supprimerResto('McDonald');">Supprimer MacDonald</button>
+    <button onclick="supprimerResto('Subway');">Supprimer Subway</button>
+    <hr>
+    <button onclick="document.getElementById('divListeRestos').innerHTML = creerListeRestos(getRestos());">Afficher liste</button>
+    <div id="divListeRestos">
+    </div>
+
+    <script type="text/javascript" src="./viewHelper.js"></script>
+    <script type="text/javascript" src="./functions.js"></script>
+
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
