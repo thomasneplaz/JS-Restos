@@ -5,7 +5,7 @@
     <title>Les Restos</title>
     <link rel="stylesheet" href="./style/styles.css" />
   </head>
-  <body>
+  <body onload="initialiserRestos();">
       <header>
           <h1 class="right">Les Restos</h1>
       </header>
@@ -21,11 +21,16 @@
       <main>
           <section data-view="restaurant" class="hidden">
               <h2>Les Restaurants</h2>
+              <section onload="creerListeRestos(getRestos());">
 
+              </section>
           </section>
 
           <section data-view="favoris" class="hidden">
               <h2>Les favoris</h2>
+              <section onload="ListeFav();">
+
+              </section>
           </section>
 
           <section data-view="vote" class="hidden">
@@ -67,7 +72,7 @@
                          </tr>
                          <tr>
                              <td>
-                                 <button type="submit" name="button" onclick="ajoutResto();">Ajouter</button>
+                                 <button type="submit" name="button" onclick="ajouterResto('machin','truc');">Ajouter</button>
                              </td>
                          </tr>
                       </table>
@@ -85,8 +90,6 @@
           </section>
       </main>
     <script type="text/javascript" src="./js/viewHelper.js"></script>
-    <script>
-      require('./renderer.js')
-    </script>
+    <script type="text/javascript" src="./renderer.js"></script>
   </body>
 </html>
