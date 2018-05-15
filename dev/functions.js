@@ -3,12 +3,13 @@
 // All of the Node.js APIs are available in this process.
 function initialiserRestos ()
 {
-  var restos = [];
-  // Sauvegarder en localStorage //
-  localStorage['restos'] = JSON.stringify(restos);
-
-  //alert('Initialisation OK');
-}
+  if (localStorage.getItem("restos") === null)
+  {
+    // Si la "BDD" localStorage n'existe pas, on l'initialise //
+    var restos = [];
+    // Sauvegarder en localStorage //
+    localStorage['restos'] = JSON.stringify(restos);
+  }
 
 function ajouterResto (nomResto, descriptionResto)
 {
