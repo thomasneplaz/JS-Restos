@@ -64,6 +64,7 @@ function creerListeRestos(lesRestos)
 function creerListeRestosSuppression(lesRestos)
 {
   html = "<table>";
+  html = "<h2>Supprimer un resto</h2><table>";
   // Parcourir //
   lesRestos.forEach(function(item, index, array)
   {
@@ -107,7 +108,23 @@ function vote()
         }
     }
     return html;
+
+function afficherListeRestosModification(lesRestos)
+{
+  html = "<h2>Modifier un resto</h2><table>";
+  // Parcourir //
+  lesRestos.forEach(function(item, index, array)
+  {
+    html += '<tr>';
+    html += '<td>' + item['nom'] + '</td>';
+    html += "<td><button onclick='afficherFormulaireRestoModification(" + '"' + item['nom'] + '"' + ")'> Modifier </button></td>";
+    html += '</tr>';
+  });
+  html += "</table>";
+  // Retourner la liste //
+  document.getElementById('modificationSection').innerHTML = html;
 }
+
 
 //fonction pour ajouter un resto avec nom et description en format html
 function ajouterResto()
@@ -149,6 +166,7 @@ function supprimerResto (nomResto)
   //alert('Suppression OK');
   creerListeRestosSuppression(getRestos());
 }
+
 
 function afficherFormulaireRestoModification(nomResto)
 {
