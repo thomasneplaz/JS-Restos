@@ -13,7 +13,7 @@
           <ul class="list-line no-puces">
               <li data-link="restaurant" onclick="creerListeRestos(getRestos());">Les restaurants</li>
               <li data-link="favoris">Les favoris</li>
-              <li data-link="vote">Voter</li>
+              <li data-link="vote" onclick="creerListeRestosCheckbox(getRestos());">Voter</li>
               <li data-link="gestion">Gestion</li>
           </ul>
       </aside>
@@ -24,6 +24,11 @@
               <section id="allResto">
 
               </section>
+
+              <section class="hidden" id="critique">
+
+              </section>
+
           </section>
 
           <section data-view="favoris" class="hidden">
@@ -33,14 +38,12 @@
               </section>
           </section>
 
-          <section data-view="vote" class="hidden">
+          <section data-view="vote" class="hidden vertical-check">
               <h2>Voter</h2>
 
-              <div class="">
-                  <form class="" action="index.html" method="post">
+              <section id="prevote" class="">
 
-                  </form>
-              </div>
+              </section>
           </section>
 
           <section data-view="gestion" class="hidden">
@@ -52,6 +55,7 @@
               </ul>
 
               <section data-form="ajout" class="hidden section-gestion">
+                  <h2>Ajouter un resto</h2>
                   <form class="add" name="ajout" action="index.html" method="post">
                       <table>
                           <tr>
@@ -80,7 +84,7 @@
               </section>
 
               <section data-form="suppresion" class="hidden section-gestion" id="suppressionSection">
-    
+                  <h2>Supprimer un resto</h2>
               </section>
 
               <section data-form="edit" class="hidden section-gestion">
