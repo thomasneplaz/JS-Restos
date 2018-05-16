@@ -59,34 +59,136 @@ function creerListeRestos(lesRestos)
 
 function creerListeRestosSuppression(lesRestos)
 {
-    alert('hop');
-    html = "";
+  html = "<h2>Supprimer un resto</h2><table>";
   // Parcourir //
   lesRestos.forEach(function(item, index, array)
   {
-    
+    html += '<tr>';
+    html += '<td>' + item['nom'] + '</td>';
+    html += "<td><button onclick='supprimerResto(" + '"' + item['nom'] + '"' + ")'> X </button></td>";
+    html += '</tr>';
   });
+  html += "</table>";
   // Retourner la liste //
   document.getElementById('suppressionSection').innerHTML = html;
+}
+
+function afficherListeRestosModification(lesRestos)
+{
+  html = "<h2>Modifier un resto</h2><table>";
+  // Parcourir //
+  lesRestos.forEach(function(item, index, array)
+  {
+    html += '<tr>';
+    html += '<td>' + item['nom'] + '</td>';
+    html += "<td><button onclick='afficherFormulaireRestoModification(" + '"' + item['nom'] + '"' + ")'> Modifier </button></td>";
+    html += '</tr>';
+  });
+  html += "</table>";
+  // Retourner la liste //
+  document.getElementById('modificationSection').innerHTML = html;
+}
+
+function afficherFormulaireRestoModification(nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      html =  "<h2>Modifier un resto</h2><table>";
+      html += '<form class="modif" name="modif" action="index.html" method="post">';
+      html += '    <table>';
+      html += '        <tr>';
+      html += '            <td>';
+      html += '                <label for="Nom">Nom :</label>';
+      html += '            </td>';
+      html += '            <td>';
+      html += "                <input id='nomModif' type='text' name='Nom' placeholder=" + '"' + item['nom'] + '"' + ">";
+      html += '            </td>';
+      html += '        </tr>';
+      html += '        <tr>';
+      html += '           <td>';
+      html += '               <label for="desc">Description :</label>';
+      html += '           </td>';
+      html += '           <td>';
+      html += "               <textarea id='descriptionModif' placeholder='" + item['description'] + "' name='desc' rows='8' cols='80'></textarea>";
+      html += '           </td>';
+      html += '       </tr>';
+      html += '       <tr>';
+      html += '           <td>';
+      html += "               <button type='button' name='button' onclick='modifierResto(" + '"' + item['nom'] + '"' + ")'>Modifier</button>";
+      html += '           </td>';
+      html += '       </tr>';
+      html += '    </table>';
+      html += '</form>';
+    }
+  });
+
+  document.getElementById('modificationSection').innerHTML = html;
 }
 
 //fonction pour ajouter un resto avec nom et description en format html
 function ajouterResto()
 {
-    var nom = document.ajout.Nom.value;
-    var desc = document.ajout.desc.value;
   // Charger en localStorage //
   var restos = JSON.parse(localStorage['restos']);
   // Ajouter l'objet //
   var leResto = new Object();
-  leResto["nom"] = nom;
-  leResto["description"] = desc;
+  leResto["nom"] = document.ajout.Nom.value;
+  leResto["description"] = document.ajout.desc.value;
 
   var newLength = restos.push(leResto);
   // Sauvegarder en localStorage //
   localStorage['restos'] = JSON.stringify(restos);
 
   //alert('Ajout OK');
+}
+
+function supprimerResto (nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      // Supprimer //
+      var removedItem = restos.splice(index, 1);
+
+      //alert(item["nom"] + ' supprimé');
+    }
+  });
+
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+
+  //alert('Suppression OK');
+  creerListeRestosSuppression(getRestos());
+}
+
+function modifierResto (ancienNomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == ancienNomResto)
+    {
+      // Modifier //
+      item["nom"] = document.getElementById('nomModif').value;
+      item["description"] = document.getElementById('descriptionModif').value;
+    }
+  });
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
 }
 
 function creerListeRestosCheckbox(lesRestos)
