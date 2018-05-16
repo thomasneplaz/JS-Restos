@@ -352,3 +352,16 @@ function modifierResto (ancienNomResto)
   // Sauvegarder en localStorage //
   localStorage['restos'] = JSON.stringify(restos);
 }
+
+function creerListeRestosCheckbox(lesRestos)
+{
+  html = '<ul>';
+  // Parcourir //
+  lesRestos.forEach(function(item, index, array)
+  {
+    html += '<li>' + item['nom'] + '</li>';
+  });
+  html += '</ul>'
+  // Retourner la liste //
+  return html;
+}
