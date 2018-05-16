@@ -18,8 +18,6 @@ document.querySelector('section ul').addEventListener('click', function(el) {
     }
 })
 
-
-
 //initialise le localStorage
 function initialiserRestos()
 {
@@ -50,6 +48,9 @@ function creerListeRestos(lesRestos)
     html += '<div class="listeResto">';
     html += '<h3>' + item['nom'] + '</h3>';
     html += '<p class="description">' + item['description'] + '</p>';
+    if(item['favoris'] == true){
+        html += '<p>FAVORIS</p>'
+    }
     html += '<ul class="no-puces listbtnresto">';
     html += '<li data-link="critique" class="btnResto">Voir les critiques</li>';
     html += '<li onclick="addFavoris();" class="btnResto">Ajouter aux favoris</li>';
@@ -78,36 +79,109 @@ function creerListeRestosSuppression(lesRestos)
   document.getElementById('suppressionSection').innerHTML = html;
 }
 
-function creerListeRestosCheckbox(lesRestos)
-{
-  html = "<h2>Choisir les restos</h2>";
-  html += '<form method="post" name="select" id="formcheckresto" action="vote();">';
-  html += '<table>';
-  // Parcourir //
-  lesRestos.forEach(function(item, index, array)
-  {
-    html += '<tr><td>';
-    html += '<input type="checkbox" name="checkresto">' + item['nom'] +'</input>';
-    html += '</td></tr>';
-  });
-  html += '<tr><td><input type="submit" name="send" value="Lancer"></input></td></tr>';
-  html += "</table></form>";
-  // Retourner la liste //
-  document.getElementById('prevote').innerHTML = html;
+function hasClass(el, className) {
+  if (el.classList)
+    return el.classList.contains(className)
+  else
+    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
 }
 
-function vote()
+function addClass(el, className) {
+  if (el.classList)
+    el.classList.add(className)
+  else if (!hasClass(el, className)) el.className += " " + className
+}
+
+function removeClass(el, className) {
+  if (el.classList)
+    el.classList.remove(className)
+  else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+    el.className=el.className.replace(reg, ' ')
+  }
+}
+
+function creerListeRestosVote(lesRestos)
 {
-    var html = '';
-    var rest = document.getElementById('formcheckresto').getElementByTagName('input');
-    for (var i = 0, iMax = rest.length; i < iMax; ++i) {
-        var check = rest[i];
-        if (check.type == "checkbox" && check.checked) {
-            // tu accèdes ici à chaque checkbox cochée avec check[i]
-            html += '<input type="checkbox" name="checkresto">' + rest[i] +'</input>';
-        }
+    html = "<table>";
+    // Parcourir //
+    lesRestos.forEach(function(item, index, array)
+    {
+      html += '<tr id="'+ item['nom'] +'">';
+      html += '<td>' + item['nom'] + '</td>';
+      html += "<td><button onclick='voteResto(" + '"' + item['nom'] + '"' + ")'> +1 </button></td>";
+      html += "<td><button onclick='retirerResto(" + '"' + item['nom'] + '"' + ")'> X </button></td>";
+      html += '</tr>';
+    });
+    html += '</table>';
+    html += '<section class="result"><table>';
+    lesRestos.forEach(function(item, index, array)
+    {
+        html += '<tr id="lign'+ item['nom'] +'" class="">';
+        html += '<td>' + item['nom'] + '</td><td><div id="bar'+ item['nom'] +'" class="barbase bar0"></div>';
+        html += '</tr>';
+    });
+    html += '</table></section>';
+    // Retourner la liste //
+    document.getElementById('prevote').innerHTML = html;
+}
+
+function retirerResto(nomResto)
+{
+    var el = document.getElementById(nomResto);
+    addClass(el, "hidden");
+    var elbar = document.getElementById('lign'+nomResto);
+    addClass(el, "hidden");
+}
+
+function voteResto(nomResto)
+{
+    var el = document.getElementById('bar'+nomResto);
+    if(hasClass(el,"bar0")){
+        removeClass(el,"bar0");
+        addClass(el,"bar1");
+    }else if (hasClass(el,"bar1")) {
+        removeClass(el,"bar1");
+        addClass(el,"bar2");
+    }else if (hasClass(el,"bar2")) {
+        removeClass(el,"bar2");
+        addClass(el,"bar3");
+    }else if (hasClass(el,"bar3")) {
+        removeClass(el,"bar3");
+        addClass(el,"bar4");
+    }else if (hasClass(el,"bar4")) {
+        removeClass(el,"bar4");
+        addClass(el,"bar5");
+    }else if (hasClass(el,"bar5")) {
+        removeClass(el,"bar5");
+        addClass(el,"bar6");
+    }else if (hasClass(el,"bar6")) {
+        removeClass(el,"bar6");
+        addClass(el,"bar7");
+    }else if (hasClass(el,"bar7")) {
+        removeClass(el,"bar7");
+        addClass(el,"bar8");
+    }else if (hasClass(el,"bar8")) {
+        removeClass(el,"bar8");
+        addClass(el,"bar9");
+    }else if (hasClass(el,"bar9")) {
+        removeClass(el,"bar9");
+        addClass(el,"bar10");
+    }else if (hasClass(el,"bar10")) {
+        removeClass(el,"bar10");
+        addClass(el,"bar11");
+    }else if (hasClass(el,"bar12")) {
+        removeClass(el,"bar12");
+        addClass(el,"bar13");
+    }else if (hasClass(el,"bar13")) {
+        removeClass(el,"bar13");
+        addClass(el,"bar14");
+    }else if (hasClass(el,"bar14")) {
+        removeClass(el,"bar14");
+        addClass(el,"bar15");
     }
-    return html;
+
+}
 
 function afficherListeRestosModification(lesRestos)
 {

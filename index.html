@@ -13,7 +13,7 @@
           <ul class="list-line no-puces">
               <li data-link="restaurant" onclick="creerListeRestos(getRestos());">Les restaurants</li>
               <li data-link="favoris">Les favoris</li>
-              <li data-link="vote" onclick="creerListeRestosCheckbox(getRestos());">Voter</li>
+              <li data-link="vote" onclick="creerListeRestosVote(getRestos());">Voter</li>
               <li data-link="gestion">Gestion</li>
           </ul>
       </aside>
@@ -38,10 +38,10 @@
               </section>
           </section>
 
-          <section data-view="vote" class="hidden vertical-check">
+          <section data-view="vote" class="hidden">
               <h2>Voter</h2>
 
-              <section id="prevote" class="">
+              <section id="prevote" >
 
               </section>
           </section>
