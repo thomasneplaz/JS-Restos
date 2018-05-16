@@ -12,7 +12,7 @@
       <aside>
           <ul class="list-line no-puces">
               <li data-link="restaurant" onclick="creerListeRestos(getRestos());">Les restaurants</li>
-              <li data-link="favoris">Les favoris</li>
+              <li data-link="favoris" onclick="creerListeFavoris(getRestos());">Les favoris</li>
               <li data-link="vote" onclick="creerListeRestosVote(getRestos());">Voter</li>
               <li data-link="gestion">Gestion</li>
           </ul>
@@ -33,7 +33,7 @@
 
           <section data-view="favoris" class="hidden">
               <h2>Les favoris</h2>
-              <section onload="ListeFav();">
+              <section id="restosFavoris">
 
               </section>
           </section>
@@ -71,7 +71,7 @@
                                  <label for="desc">Description :</label>
                              </td>
                              <td>
-                                 <textarea name="desc" rows="8" cols="80"></textarea>
+                                 <textarea name="desc" rows="8" cols="80" maxlength="150"></textarea>
                              </td>
                          </tr>
                          <tr>
@@ -87,7 +87,7 @@
                   <h2>Supprimer un resto</h2>
               </section>
 
-              <section data-form="edit" class="hidden section-gestion">
+              <section data-form="edit" class="hidden section-gestion" id="modificationSection">
 
               </section>
 

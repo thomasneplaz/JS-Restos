@@ -47,14 +47,20 @@ function creerListeRestos(lesRestos)
   {
     html += '<div class="listeResto">';
     html += '<h3>' + item['nom'] + '</h3>';
+    html += '<div class="descResto">';
     html += '<p class="description">' + item['description'] + '</p>';
-    if(item['favoris'] == true){
-        html += '<p>FAVORIS</p>'
-    }
     html += '<ul class="no-puces listbtnresto">';
     html += '<li data-link="critique" class="btnResto">Voir les critiques</li>';
-    html += '<li onclick="addFavoris();" class="btnResto">Ajouter aux favoris</li>';
+    if(item['favoris'] == true)
+    {
+        html += "<li onclick='toggleFavoris(" + '"' + item['nom'] + '"' + ");' class='btnResto'>Retirer des favoris</li>";
+    }
+    else
+    {
+        html += "<li onclick='toggleFavoris(" + '"' + item['nom'] + '"' + ");' class='btnResto'>Ajouter aux favoris</li>";
+    }
     html += '</ul>';
+    html += '</div>';
     html += '</div>';
 
   });
@@ -62,9 +68,59 @@ function creerListeRestos(lesRestos)
   document.getElementById('allResto').innerHTML = html;
 }
 
+function toggleFavoris(nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      // On inverse l'attribut "favoris" //
+      if(item["favoris"] === true)
+      {
+        item["favoris"] = false;
+      }
+      else
+      {
+        item["favoris"] = true;
+      }
+    }
+  });
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+
+  creerListeRestos(getRestos());
+}
+
+function creerListeFavoris(lesRestos)
+{
+  html = "";
+  // Parcourir //
+  lesRestos.forEach(function(item, index, array)
+  {
+    if(item['favoris'] === true)
+    {
+      html += '<div class="listeResto">';
+      html += '<h3>' + item['nom'] + '</h3>';
+      html += '<div class="descResto"';
+      html += '<p class="description">' + item['description'] + '</p>';
+      html += '<ul class="no-puces listbtnresto">';
+      html += '<li data-link="critique" class="btnResto">Voir les critiques</li>';
+
+      html += '</ul>';
+      html += '</div>';
+      html += '</div>';
+    }
+  });
+  // Retourner la liste //
+  document.getElementById('restosFavoris').innerHTML = html;
+}
+
 function creerListeRestosSuppression(lesRestos)
 {
-  html = "<table>";
   html = "<h2>Supprimer un resto</h2><table>";
   // Parcourir //
   lesRestos.forEach(function(item, index, array)
@@ -78,6 +134,7 @@ function creerListeRestosSuppression(lesRestos)
   // Retourner la liste //
   document.getElementById('suppressionSection').innerHTML = html;
 }
+
 
 function hasClass(el, className) {
   if (el.classList)
@@ -103,21 +160,21 @@ function removeClass(el, className) {
 
 function creerListeRestosVote(lesRestos)
 {
-    html = "<table>";
+    html = "<table class='voteTable'>";
     // Parcourir //
     lesRestos.forEach(function(item, index, array)
     {
-      html += '<tr id="'+ item['nom'] +'">';
+      html += '<tr id="'+ item['nom'] +'" class="trspace">';
       html += '<td>' + item['nom'] + '</td>';
       html += "<td><button onclick='voteResto(" + '"' + item['nom'] + '"' + ")'> +1 </button></td>";
       html += "<td><button onclick='retirerResto(" + '"' + item['nom'] + '"' + ")'> X </button></td>";
       html += '</tr>';
     });
     html += '</table>';
-    html += '<section class="result"><table>';
+    html += '<section class="result resultTable"><table>';
     lesRestos.forEach(function(item, index, array)
     {
-        html += '<tr id="lign'+ item['nom'] +'" class="">';
+        html += '<tr id="lign'+ item['nom'] +'" class="trspace">';
         html += '<td>' + item['nom'] + '</td><td><div id="bar'+ item['nom'] +'" class="barbase bar0"></div>';
         html += '</tr>';
     });
@@ -131,7 +188,7 @@ function retirerResto(nomResto)
     var el = document.getElementById(nomResto);
     addClass(el, "hidden");
     var elbar = document.getElementById('lign'+nomResto);
-    addClass(el, "hidden");
+    addClass(elbar, "hidden");
 }
 
 function voteResto(nomResto)
@@ -199,49 +256,6 @@ function afficherListeRestosModification(lesRestos)
   document.getElementById('modificationSection').innerHTML = html;
 }
 
-
-//fonction pour ajouter un resto avec nom et description en format html
-function ajouterResto()
-{
-  // Charger en localStorage //
-  var restos = JSON.parse(localStorage['restos']);
-  // Ajouter l'objet //
-  var leResto = new Object();
-  leResto["nom"] = document.ajout.Nom.value;
-  leResto["description"] = document.ajout.desc.value;
-
-  var newLength = restos.push(leResto);
-  // Sauvegarder en localStorage //
-  localStorage['restos'] = JSON.stringify(restos);
-
-  //alert('Ajout OK');
-}
-
-function supprimerResto (nomResto)
-{
-  // Charger en localStorage //
-  var restos = JSON.parse(localStorage['restos']);
-  // Parcourir les restos //
-  restos.forEach(function(item, index, array)
-  {
-    // Si on tombe sur le resto en paramètre //
-    if(item["nom"] == nomResto)
-    {
-      // Supprimer //
-      var removedItem = restos.splice(index, 1);
-
-      //alert(item["nom"] + ' supprimé');
-    }
-  });
-
-  // Sauvegarder en localStorage //
-  localStorage['restos'] = JSON.stringify(restos);
-
-  //alert('Suppression OK');
-  creerListeRestosSuppression(getRestos());
-}
-
-
 function afficherFormulaireRestoModification(nomResto)
 {
   // Charger en localStorage //
@@ -280,8 +294,44 @@ function afficherFormulaireRestoModification(nomResto)
       html += '</form>';
     }
   });
-
   document.getElementById('modificationSection').innerHTML = html;
+}
+
+//fonction pour ajouter un resto avec nom et description en format html
+function ajouterResto()
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Ajouter l'objet //
+  var leResto = new Object();
+  leResto["nom"] = document.ajout.Nom.value;
+  leResto["description"] = document.ajout.desc.value;
+  leResto["favoris"] = false;
+  leResto["critiques"] = [];
+
+  var newLength = restos.push(leResto);
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+}
+
+function supprimerResto (nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      // Supprimer //
+      var removedItem = restos.splice(index, 1);
+    }
+  });
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+
+  creerListeRestosSuppression(getRestos());
 }
 
 function modifierResto (ancienNomResto)
