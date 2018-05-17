@@ -1,0 +1,12 @@
+RESTAURANT
+
+- CRUD
+- Créer des critique avec une note
+- Liste des resto favoris, tous les resto
+- Faire un vote pour choix d'un resto :
+    - Choix des resto pour le vote
+    - Ajout des votes
+    - Afficher le résultats
+    - Export en pdf des résultat
+- Export pdf des favoris
+- Un resto au hasard

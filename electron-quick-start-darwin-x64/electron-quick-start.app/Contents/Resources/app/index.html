@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Les Restos</title>
+    <link rel="stylesheet" href="./style/styles.css" />
+  </head>
+  <body onload="initialiserRestos();">
+      <header>
+          <h1 class="right">Les Restos</h1>
+      </header>
+      <aside>
+          <ul class="list-line no-puces">
+              <li data-link="restaurant" onclick="creerListeRestos(getRestos());">Les restaurants</li>
+              <li data-link="favoris" onclick="creerListeFavoris(getRestos());">Les favoris</li>
+              <li data-link="vote" onclick="creerListeRestosVote(getRestos());">Voter</li>
+              <li data-link="gestion">Gestion</li>
+          </ul>
+      </aside>
+
+      <main>
+          <section data-view="restaurant" class="hidden">
+              <h2>Les Restaurants</h2>
+              <section id="allResto">
+
+              </section>
+              <section class="hidden" id="critiqueArea">
+
+              </section>
+          </section>
+
+          <section data-view="favoris" class="hidden">
+              <h2>Les favoris</h2>
+              <section id="restosFavoris">
+
+              </section>
+          </section>
+
+          <section data-view="vote" class="hidden">
+              <h2>Voter</h2>
+
+              <div id="prevote" class="">
+
+              </div>
+          </section>
+
+          <section data-view="gestion" class="hidden">
+              <h2>Gestion</h2>
+              <ul class="no-puces list-line">
+                  <li data-link="ajout">Ajouter un Resto</li>
+                  <li data-link="suppresion" onclick="creerListeRestosSuppression(getRestos());">Supprimer un Resto</li>
+                  <li data-link="edit" onclick="afficherListeRestosModification(getRestos());">Modifier un Resto</li>
+              </ul>
+
+              <section data-form="ajout" class="hidden section-gestion">
+                  <h2>Ajouter un resto</h2>
+                  <form class="add" name="ajout" action="index.html" method="post">
+                      <table>
+                          <tr>
+                              <td>
+                                  <label for="Nom">Nom :</label>
+                              </td>
+                              <td>
+                                  <input type="text" name="Nom" value="">
+                              </td>
+                          </tr>
+                          <tr>
+                             <td>
+                                 <label for="desc">Description :</label>
+                             </td>
+                             <td>
+                                 <textarea name="desc" rows="8" cols="80" maxlength="150"></textarea>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 <button type="button" name="button" onclick="ajouterResto();">Ajouter</button>
+                             </td>
+                         </tr>
+                      </table>
+                  </form>
+              </section>
+
+              <section data-form="suppresion" class="hidden section-gestion" id="suppressionSection">
+
+              </section>
+
+              <section data-form="edit" class="hidden section-gestion" id="modificationSection">
+
+              </section>
+
+          </section>
+      </main>
+    <script type="text/javascript" src="./js/viewHelper.js"></script>
+    <script type="text/javascript" src="./renderer.js"></script>
+    <script type="text/javascript">
+        require('print-js');
+    </script>
+
+  </body>
+</html>
