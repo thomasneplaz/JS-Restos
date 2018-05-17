@@ -461,20 +461,5 @@ function modifierResto (ancienNomResto)
 }
 
 function exportPDF() {
-    var doc = new jsPDF('p','pt','letter');
-    var source = window.document.getElementById('critiqueArea')[0];
-    var elementHandler = {
-      '#ignorePDF': function (element, renderer) {
-        return true;
-      }
-    };
-    doc.fromHTML(
-        source,
-        15,
-        15,
-        {
-            'width': 180,'elementHandlers': elementHandler
-        });
-
-    doc.output("dataurlnewwindow");
+    printJS('#critiqueArea', 'html');
 }
