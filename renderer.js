@@ -105,7 +105,7 @@ function afficherCritique(nomResto)
         html += '               <label for="contenu">Contenu :</label>';
         html += '           </td>';
         html += '           <td>';
-        html += "               <textarea id='contenu' name='contenu' rows='8' cols='80'></textarea>";
+        html += "               <textarea id='contenu' name='contenu' rows='8' cols='80' maxlength='150'></textarea>";
         html += '           </td>';
         html += '       </tr>';
         html += '       <tr>';
@@ -233,7 +233,7 @@ function afficherFormulaireRestoModification(nomResto)
       html += '               <label for="desc">Description :</label>';
       html += '           </td>';
       html += '           <td>';
-      html += "               <textarea id='descriptionModif' placeholder='" + item['description'] + "' name='desc' rows='8' cols='80'></textarea>";
+      html += "               <textarea id='descriptionModif' placeholder='" + item['description'] + "' name='desc' rows='8' cols='80' maxlength='150'></textarea>";
       html += '           </td>';
       html += '       </tr>';
       html += '       <tr>';
