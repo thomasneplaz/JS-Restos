@@ -50,7 +50,7 @@ function creerListeRestos(lesRestos)
     html += '<div class="descResto">';
     html += '<p class="description">' + item['description'] + '</p>';
     html += '<ul class="no-puces listbtnresto">';
-    html += '<li data-link="critique" class="btnResto">Voir les critiques</li>';
+    html += "<li data-link='critique' class='btnResto' onclick='afficherCritique(" + '"' + item['nom'] + '"' + ")'>Voir les critiques</li>";
     if(item['favoris'] == true)
     {
         html += "<li onclick='toggleFavoris(" + '"' + item['nom'] + '"' + ");' class='btnResto'>Retirer des favoris</li>";
@@ -108,7 +108,7 @@ function creerListeFavoris(lesRestos)
       html += '<div class="descResto"';
       html += '<p class="description">' + item['description'] + '</p>';
       html += '<ul class="no-puces listbtnresto">';
-      html += '<li data-link="critique" class="btnResto">Voir les critiques</li>';
+      html += "<li data-link='critique' class='btnResto' onclick='afficherCritique(" + '"' + item['nom'] + '"' + ")'>Voir les critiques</li>";
 
       html += '</ul>';
       html += '</div>';
@@ -295,6 +295,29 @@ function afficherFormulaireRestoModification(nomResto)
     }
   });
   document.getElementById('modificationSection').innerHTML = html;
+}
+
+function afficherCritique(nomResto) {
+    var restos = JSON.parse(localStorage['restos']);
+    var crit = restos['critiques'];
+    var html = "";
+
+    if (restos['critiques'] != null && restos['nom'] == nomResto) {
+        html += '<div class="listeResto">';
+        html += '<h3>' + restos['nom'] + '</h3>';
+        crit.forEach(function(item, index, array){
+            html += '<div class="descResto">';
+            html += '<h4>'+ item['pseudo'] +'</h4>';
+            html += '<p class="description">' + item['contenu'] + '</p>';
+            html += '</div>';
+        });
+        html += '</div>';
+    }
+    var el = document.getElementById('allResto')
+    addClass(el,"hidden");
+    var elcrit = document.getElementById('critiqueArea')
+    removeClass(elcrit,"hidden");
+    document.getElementById('critiqueArea').innerHTML = html;
 }
 
 //fonction pour ajouter un resto avec nom et description en format html
