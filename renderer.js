@@ -115,7 +115,6 @@ function afficherCritique(nomResto)
         html += '       </tr>';
         html += '    </table>';
         html += '</form>';
-        html += '<button onclick="exportPDF();">Exporter les favoris</button>';
       }
     });
     document.getElementById('critiqueArea').innerHTML = html;
@@ -130,18 +129,18 @@ function creerListeFavoris(lesRestos)
   {
     if(item['favoris'] === true)
     {
-      html += '<div class="listeResto">';
+      html += '<div class="listeResto" id="printCrit">';
       html += '<h3>' + item['nom'] + '</h3>';
-      html += '<div class="descResto"';
+      html += '<div class="descResto">';
       html += '<p class="description">' + item['description'] + '</p>';
       html += '<ul class="no-puces listbtnresto">';
       html += "<li data-link='critique' class='btnResto' onclick='afficherCritique(" + '"' + item['nom'] + '"' + ")'>Voir les critiques</li>";
-
       html += '</ul>';
       html += '</div>';
       html += '</div>';
     }
   });
+  html += '<button onclick="exportPDF();">Exporter les favoris</button>';
   // Retourner la liste //
   document.getElementById('restosFavoris').innerHTML = html;
 }
@@ -470,5 +469,5 @@ function removeClass(el, className) {
 }
 
 function exportPDF() {
-    printJS('#critiqueArea', 'html');
+    printJS('printCrit', 'html');
 }
