@@ -18,26 +18,9 @@ document.querySelector('section ul').addEventListener('click', function(el) {
     }
 })
 
-/* Fonction permettant d'initialiser le localStorage la première fois */
-function initialiserRestos()
-{
-    if (localStorage.getItem("restos") === null)
-    {
-        // Si la "BDD" localStorage n'existe pas, on l'initialise //
-        var restos = [];
-        // Sauvegarder en localStorage //
-        localStorage['restos'] = JSON.stringify(restos);
-    }
-  }
-
-/* Fonction permettant de récupérer tous les restos */
-function getRestos ()
-{
-  // Charger en localStorage //
-  var restos = JSON.parse(localStorage['restos']);
-  // Retourner la liste //
-  return restos;
-}
+/* ===========================================
+            FONCTIONS D'AFFICHAGE
+=========================================== */
 
 /* Fonction permettant la génération de la page d'affichage des restos */
 function creerListeRestos(lesRestos)
@@ -63,7 +46,6 @@ function creerListeRestos(lesRestos)
     html += '</ul>';
     html += '</div>';
     html += '</div>';
-
   });
 
   var elcrit = document.getElementById('critiqueArea')
@@ -73,34 +55,6 @@ function creerListeRestos(lesRestos)
 
   // Retourner la liste //
   document.getElementById('allResto').innerHTML = html;
-}
-
-/* Fonction permettant d'ajouter/supprimer un resto des favoris */
-function toggleFavoris(nomResto)
-{
-  // Charger en localStorage //
-  var restos = JSON.parse(localStorage['restos']);
-  // Parcourir les restos //
-  restos.forEach(function(item, index, array)
-  {
-    // Si on tombe sur le resto en paramètre //
-    if(item["nom"] == nomResto)
-    {
-      // On inverse l'attribut "favoris" //
-      if(item["favoris"] === true)
-      {
-        item["favoris"] = false;
-      }
-      else
-      {
-        item["favoris"] = true;
-      }
-    }
-  });
-  // Sauvegarder en localStorage //
-  localStorage['restos'] = JSON.stringify(restos);
-
-  creerListeRestos(getRestos());
 }
 
 /* Fonction permettant la génération de la page des critiques */
@@ -114,7 +68,6 @@ function afficherCritique(nomResto)
     removeClass(elcrit,"hidden");
 
     var html = "";
-
     // Parcourir les restos //
     restos.forEach(function(item, index, array)
     {
@@ -166,7 +119,6 @@ function afficherCritique(nomResto)
       }
     });
     document.getElementById('critiqueArea').innerHTML = html;
-
 }
 
 /* Fonction de génération de la page des restos favoris */
@@ -211,27 +163,6 @@ function creerListeRestosSuppression(lesRestos)
   document.getElementById('suppressionSection').innerHTML = html;
 }
 
-/* Fonctions d'ajout/suppression de classe */
-function hasClass(el, className) {
-  if (el.classList)
-    return el.classList.contains(className)
-  else
-    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
-function addClass(el, className) {
-  if (el.classList)
-    el.classList.add(className)
-  else if (!hasClass(el, className)) el.className += " " + className
-}
-function removeClass(el, className) {
-  if (el.classList)
-    el.classList.remove(className)
-  else if (hasClass(el, className)) {
-    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-    el.className=el.className.replace(reg, ' ')
-  }
-}
-
 /* Fonction de génération de la page de vote */
 function creerListeRestosVote(lesRestos)
 {
@@ -256,65 +187,6 @@ function creerListeRestosVote(lesRestos)
     html += '</table></section>';
     // Retourner la liste //
     document.getElementById('prevote').innerHTML = html;
-}
-
-/* Fonction permettant de retirer un resto du vote */
-function retirerResto(nomResto)
-{
-    var el = document.getElementById(nomResto);
-    addClass(el, "hidden");
-    var elbar = document.getElementById('lign'+nomResto);
-    addClass(elbar, "hidden");
-}
-
-/* Fonction permettant de voter pour un resto */
-function voteResto(nomResto)
-{
-    var el = document.getElementById('bar'+nomResto);
-    if(hasClass(el,"bar0")){
-        removeClass(el,"bar0");
-        addClass(el,"bar1");
-    }else if (hasClass(el,"bar1")) {
-        removeClass(el,"bar1");
-        addClass(el,"bar2");
-    }else if (hasClass(el,"bar2")) {
-        removeClass(el,"bar2");
-        addClass(el,"bar3");
-    }else if (hasClass(el,"bar3")) {
-        removeClass(el,"bar3");
-        addClass(el,"bar4");
-    }else if (hasClass(el,"bar4")) {
-        removeClass(el,"bar4");
-        addClass(el,"bar5");
-    }else if (hasClass(el,"bar5")) {
-        removeClass(el,"bar5");
-        addClass(el,"bar6");
-    }else if (hasClass(el,"bar6")) {
-        removeClass(el,"bar6");
-        addClass(el,"bar7");
-    }else if (hasClass(el,"bar7")) {
-        removeClass(el,"bar7");
-        addClass(el,"bar8");
-    }else if (hasClass(el,"bar8")) {
-        removeClass(el,"bar8");
-        addClass(el,"bar9");
-    }else if (hasClass(el,"bar9")) {
-        removeClass(el,"bar9");
-        addClass(el,"bar10");
-    }else if (hasClass(el,"bar10")) {
-        removeClass(el,"bar10");
-        addClass(el,"bar11");
-    }else if (hasClass(el,"bar12")) {
-        removeClass(el,"bar12");
-        addClass(el,"bar13");
-    }else if (hasClass(el,"bar13")) {
-        removeClass(el,"bar13");
-        addClass(el,"bar14");
-    }else if (hasClass(el,"bar14")) {
-        removeClass(el,"bar14");
-        addClass(el,"bar15");
-    }
-
 }
 
 /* Fonction de génération de la page de modification de resto  */
@@ -374,6 +246,118 @@ function afficherFormulaireRestoModification(nomResto)
     }
   });
   document.getElementById('modificationSection').innerHTML = html;
+}
+
+/* ===========================================
+              FONCTIONS METIER
+=========================================== */
+
+/* Fonction permettant d'initialiser le localStorage la première fois */
+function initialiserRestos()
+{
+    if (localStorage.getItem("restos") === null)
+    {
+        // Si la "BDD" localStorage n'existe pas, on l'initialise //
+        var restos = [];
+        // Sauvegarder en localStorage //
+        localStorage['restos'] = JSON.stringify(restos);
+    }
+  }
+
+/* Fonction permettant de récupérer tous les restos */
+function getRestos ()
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Retourner la liste //
+  return restos;
+}
+
+/* Fonction permettant d'ajouter/supprimer un resto des favoris */
+function toggleFavoris(nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      // On inverse l'attribut "favoris" //
+      if(item["favoris"] === true)
+      {
+        item["favoris"] = false;
+      }
+      else
+      {
+        item["favoris"] = true;
+      }
+    }
+  });
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+
+  creerListeRestos(getRestos());
+}
+
+/* Fonction permettant de retirer un resto du vote */
+function retirerResto(nomResto)
+{
+    var el = document.getElementById(nomResto);
+    addClass(el, "hidden");
+    var elbar = document.getElementById('lign'+nomResto);
+    addClass(elbar, "hidden");
+}
+
+/* Fonction permettant de voter pour un resto */
+function voteResto(nomResto)
+{
+    var el = document.getElementById('bar'+nomResto);
+    if(hasClass(el,"bar0")){
+        removeClass(el,"bar0");
+        addClass(el,"bar1");
+    }else if (hasClass(el,"bar1")) {
+        removeClass(el,"bar1");
+        addClass(el,"bar2");
+    }else if (hasClass(el,"bar2")) {
+        removeClass(el,"bar2");
+        addClass(el,"bar3");
+    }else if (hasClass(el,"bar3")) {
+        removeClass(el,"bar3");
+        addClass(el,"bar4");
+    }else if (hasClass(el,"bar4")) {
+        removeClass(el,"bar4");
+        addClass(el,"bar5");
+    }else if (hasClass(el,"bar5")) {
+        removeClass(el,"bar5");
+        addClass(el,"bar6");
+    }else if (hasClass(el,"bar6")) {
+        removeClass(el,"bar6");
+        addClass(el,"bar7");
+    }else if (hasClass(el,"bar7")) {
+        removeClass(el,"bar7");
+        addClass(el,"bar8");
+    }else if (hasClass(el,"bar8")) {
+        removeClass(el,"bar8");
+        addClass(el,"bar9");
+    }else if (hasClass(el,"bar9")) {
+        removeClass(el,"bar9");
+        addClass(el,"bar10");
+    }else if (hasClass(el,"bar10")) {
+        removeClass(el,"bar10");
+        addClass(el,"bar11");
+    }else if (hasClass(el,"bar12")) {
+        removeClass(el,"bar12");
+        addClass(el,"bar13");
+    }else if (hasClass(el,"bar13")) {
+        removeClass(el,"bar13");
+        addClass(el,"bar14");
+    }else if (hasClass(el,"bar14")) {
+        removeClass(el,"bar14");
+        addClass(el,"bar15");
+    }
+
 }
 
 /* Fonction pour ajouter une critique sur un resto en mémoire */
@@ -458,6 +442,31 @@ function modifierResto (ancienNomResto)
   });
   // Sauvegarder en localStorage //
   localStorage['restos'] = JSON.stringify(restos);
+}
+
+/* ===========================================
+            FONCTIONS UTILITAIRES
+=========================================== */
+
+/* Fonctions d'ajout/suppression de classe */
+function hasClass(el, className) {
+  if (el.classList)
+    return el.classList.contains(className)
+  else
+    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+}
+function addClass(el, className) {
+  if (el.classList)
+    el.classList.add(className)
+  else if (!hasClass(el, className)) el.className += " " + className
+}
+function removeClass(el, className) {
+  if (el.classList)
+    el.classList.remove(className)
+  else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+    el.className=el.className.replace(reg, ' ')
+  }
 }
 
 function exportPDF() {
