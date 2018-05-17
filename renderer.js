@@ -134,7 +134,7 @@ function creerListeFavoris(lesRestos)
       html += '<div class="descResto">';
       html += '<p class="description">' + item['description'] + '</p>';
       html += '<ul class="no-puces listbtnresto">';
-      html += "<li data-link='critique' class='btnResto' onclick='afficherCritique(" + '"' + item['nom'] + '"' + ")'>Voir les critiques</li>";
+      //html += "<li data-link='critique' class='btnResto' onclick='afficherCritique(" + '"' + item['nom'] + '"' + ")'>Voir les critiques</li>";
       html += '</ul>';
       html += '</div>';
       html += '</div>';
