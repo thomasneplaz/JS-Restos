@@ -18,7 +18,7 @@ document.querySelector('section ul').addEventListener('click', function(el) {
     }
 })
 
-//initialise le localStorage
+/* Fonction permettant d'initialiser le localStorage la première fois */
 function initialiserRestos()
 {
     if (localStorage.getItem("restos") === null)
@@ -30,7 +30,7 @@ function initialiserRestos()
     }
   }
 
-//récupère une liste de restos
+/* Fonction permettant de récupérer tous les restos */
 function getRestos ()
 {
   // Charger en localStorage //
@@ -39,9 +39,10 @@ function getRestos ()
   return restos;
 }
 
+/* Fonction permettant la génération de la page d'affichage des restos */
 function creerListeRestos(lesRestos)
 {
-    html = "";
+  html = "";
   // Parcourir //
   lesRestos.forEach(function(item, index, array)
   {
@@ -64,10 +65,17 @@ function creerListeRestos(lesRestos)
     html += '</div>';
 
   });
+
+  var elcrit = document.getElementById('critiqueArea')
+  addClass(elcrit,"hidden");
+  var el = document.getElementById('allResto')
+  removeClass(el,"hidden");
+
   // Retourner la liste //
   document.getElementById('allResto').innerHTML = html;
 }
 
+/* Fonction permettant d'ajouter/supprimer un resto des favoris */
 function toggleFavoris(nomResto)
 {
   // Charger en localStorage //
@@ -95,6 +103,73 @@ function toggleFavoris(nomResto)
   creerListeRestos(getRestos());
 }
 
+/* Fonction permettant la génération de la page des critiques */
+function afficherCritique(nomResto)
+{
+    // Charger en localStorage //
+    var restos = JSON.parse(localStorage['restos']);
+    var el = document.getElementById('allResto')
+    addClass(el,"hidden");
+    var elcrit = document.getElementById('critiqueArea')
+    removeClass(elcrit,"hidden");
+
+    var html = "";
+
+    // Parcourir les restos //
+    restos.forEach(function(item, index, array)
+    {
+      // Si on tombe sur le resto en paramètre //
+      if(item["nom"] == nomResto)
+      {
+        var crit = item['critiques'];
+
+        html += '<div class="">';
+        html += '<h2>' + item['nom'] + '</h2>';
+        crit.forEach(function(item, index, array){
+            html += '<div class="listeResto">';
+            html += '<h3>'+ item['pseudo'] +'</h3>';
+            html += '<div class="descResto">';
+            html += '<p class="description">' + item['contenu'] + '</p>';
+            html += '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+
+        // Affichage du formulaire d'ajout //
+        html += "<h2>Ajouter une critique</h2><table>";
+        html += '<form class="critique" name="critique" action="index.html" method="post">';
+        html += '    <table>';
+        html += '        <tr>';
+        html += '            <td>';
+        html += '                <label for="pseudo">Pseudo :</label>';
+        html += '            </td>';
+        html += '            <td>';
+        html += "                <input id='pseudo' type='text' name='pseudo'>";
+        html += '            </td>';
+        html += '        </tr>';
+        html += '        <tr>';
+        html += '           <td>';
+        html += '               <label for="contenu">Contenu :</label>';
+        html += '           </td>';
+        html += '           <td>';
+        html += "               <textarea id='contenu' name='contenu' rows='8' cols='80'></textarea>";
+        html += '           </td>';
+        html += '       </tr>';
+        html += '       <tr>';
+        html += '           <td>';
+        html += "               <button type='button' name='button' onclick='ajouterCritique(" + '"' + item['nom'] + '"' + ")'>Ajouter</button>";
+        html += '           </td>';
+        html += '       </tr>';
+        html += '    </table>';
+        html += '</form>';
+        html += '<button onclick="exportPDF();">Exporter les favoris</button>';
+      }
+    });
+    document.getElementById('critiqueArea').innerHTML = html;
+
+}
+
+/* Fonction de génération de la page des restos favoris */
 function creerListeFavoris(lesRestos)
 {
   html = "";
@@ -119,6 +194,7 @@ function creerListeFavoris(lesRestos)
   document.getElementById('restosFavoris').innerHTML = html;
 }
 
+/* Fonction la génération de la page de suppression de restos */
 function creerListeRestosSuppression(lesRestos)
 {
   html = "<h2>Supprimer un resto</h2><table>";
@@ -135,20 +211,18 @@ function creerListeRestosSuppression(lesRestos)
   document.getElementById('suppressionSection').innerHTML = html;
 }
 
-
+/* Fonctions d'ajout/suppression de classe */
 function hasClass(el, className) {
   if (el.classList)
     return el.classList.contains(className)
   else
     return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
 }
-
 function addClass(el, className) {
   if (el.classList)
     el.classList.add(className)
   else if (!hasClass(el, className)) el.className += " " + className
 }
-
 function removeClass(el, className) {
   if (el.classList)
     el.classList.remove(className)
@@ -158,6 +232,7 @@ function removeClass(el, className) {
   }
 }
 
+/* Fonction de génération de la page de vote */
 function creerListeRestosVote(lesRestos)
 {
     html = "<table class='voteTable'>";
@@ -183,6 +258,7 @@ function creerListeRestosVote(lesRestos)
     document.getElementById('prevote').innerHTML = html;
 }
 
+/* Fonction permettant de retirer un resto du vote */
 function retirerResto(nomResto)
 {
     var el = document.getElementById(nomResto);
@@ -191,6 +267,7 @@ function retirerResto(nomResto)
     addClass(elbar, "hidden");
 }
 
+/* Fonction permettant de voter pour un resto */
 function voteResto(nomResto)
 {
     var el = document.getElementById('bar'+nomResto);
@@ -240,6 +317,7 @@ function voteResto(nomResto)
 
 }
 
+/* Fonction de génération de la page de modification de resto  */
 function afficherListeRestosModification(lesRestos)
 {
   html = "<h2>Modifier un resto</h2><table>";
@@ -256,6 +334,7 @@ function afficherListeRestosModification(lesRestos)
   document.getElementById('modificationSection').innerHTML = html;
 }
 
+/* Fonction de génération du formulaire de modification de resto */
 function afficherFormulaireRestoModification(nomResto)
 {
   // Charger en localStorage //
@@ -297,30 +376,33 @@ function afficherFormulaireRestoModification(nomResto)
   document.getElementById('modificationSection').innerHTML = html;
 }
 
-function afficherCritique(nomResto) {
-    var restos = JSON.parse(localStorage['restos']);
-    var crit = restos['critiques'];
-    var html = "";
+/* Fonction pour ajouter une critique sur un resto en mémoire */
+function ajouterCritique(nomResto)
+{
+  // Charger en localStorage //
+  var restos = JSON.parse(localStorage['restos']);
+  // Parcourir les restos //
+  restos.forEach(function(item, index, array)
+  {
+    // Si on tombe sur le resto en paramètre //
+    if(item["nom"] == nomResto)
+    {
+      var laCritique = new Object();
 
-    if (restos['critiques'] != null && restos['nom'] == nomResto) {
-        html += '<div class="listeResto">';
-        html += '<h3>' + restos['nom'] + '</h3>';
-        crit.forEach(function(item, index, array){
-            html += '<div class="descResto">';
-            html += '<h4>'+ item['pseudo'] +'</h4>';
-            html += '<p class="description">' + item['contenu'] + '</p>';
-            html += '</div>';
-        });
-        html += '</div>';
+      laCritique["pseudo"] = document.getElementById('pseudo').value;
+      laCritique["contenu"] = document.getElementById('contenu').value;
+
+      var newLength = item["critiques"].push(laCritique);
     }
-    var el = document.getElementById('allResto')
-    addClass(el,"hidden");
-    var elcrit = document.getElementById('critiqueArea')
-    removeClass(elcrit,"hidden");
-    document.getElementById('critiqueArea').innerHTML = html;
+  });
+  // Sauvegarder en localStorage //
+  localStorage['restos'] = JSON.stringify(restos);
+
+  // On regénère la page pour actualiser //
+  afficherCritique(nomResto)
 }
 
-//fonction pour ajouter un resto avec nom et description en format html
+/* Fonction pour ajouter un resto en mémoire */
 function ajouterResto()
 {
   // Charger en localStorage //
@@ -337,6 +419,7 @@ function ajouterResto()
   localStorage['restos'] = JSON.stringify(restos);
 }
 
+/* Fonction pour supprimer un resto de la mémoire */
 function supprimerResto (nomResto)
 {
   // Charger en localStorage //
@@ -344,19 +427,20 @@ function supprimerResto (nomResto)
   // Parcourir les restos //
   restos.forEach(function(item, index, array)
   {
-    // Si on tombe sur le resto en paramètre //
+    // Si l'on tombe sur le resto en paramètre //
     if(item["nom"] == nomResto)
     {
-      // Supprimer //
+      // Supprimer le resto //
       var removedItem = restos.splice(index, 1);
     }
   });
   // Sauvegarder en localStorage //
   localStorage['restos'] = JSON.stringify(restos);
-
+  // On regénère la page pour actualiser //
   creerListeRestosSuppression(getRestos());
 }
 
+/* Fonction pour modifier un resto de la mémoire */
 function modifierResto (ancienNomResto)
 {
   // Charger en localStorage //
@@ -364,7 +448,7 @@ function modifierResto (ancienNomResto)
   // Parcourir les restos //
   restos.forEach(function(item, index, array)
   {
-    // Si on tombe sur le resto en paramètre //
+    // Si l'on tombe sur le resto en paramètre //
     if(item["nom"] == ancienNomResto)
     {
       // Modifier //
@@ -374,4 +458,23 @@ function modifierResto (ancienNomResto)
   });
   // Sauvegarder en localStorage //
   localStorage['restos'] = JSON.stringify(restos);
+}
+
+function exportPDF() {
+    var doc = new jsPDF('p','pt','letter');
+    var source = window.document.getElementById('critiqueArea')[0];
+    var elementHandler = {
+      '#ignorePDF': function (element, renderer) {
+        return true;
+      }
+    };
+    doc.fromHTML(
+        source,
+        15,
+        15,
+        {
+            'width': 180,'elementHandlers': elementHandler
+        });
+
+    doc.output("dataurlnewwindow");
 }
